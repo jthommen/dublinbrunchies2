@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Find amazing Dublin Brunch places | Dublin Brunchies</title>
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="styles/min/style.min.css">
+
+    </head>
+    <body>
+    <div class="container">
+        <div id="nav">
+            <h1>Dublin Brunchies</h1>
+            <label for="search-box-text">Filter brunch places:</label><br>
+            <input id="search-box-text" type="text" placeholder="e.g. Herbstreet" data-bind="textInput: filter, valueUpdate: 'keydown'" />
+            <hr>
+            <div id="place-list" data-bind="foreach: data">
+                <ul class="place-element" data-bind="click: showMarker, event: {mouseover: bounce}, visible: shown">
+                    <li data-bind="text: name"></li>
+                    <li class="place-info">Google rating:  <span data-bind="text: rating"></span></li>
+                    <li class="place-info" data-bind="text: formatted_address"></li>
+                    <li class="place-info" data-bind="text: international_phone_number"></li>
+                </ul>
+            </div>
+        </div>
+        <div data-bind="value: map" id="map"></div>
+
+
+
+        <!-- JS Google Maps API Call with `initMap` callback -->
+        <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry&key=AIzaSyDy1ZqFDvp7ztz-VL21dy_ALBG4JKl7Wg8&v=3&callback=app"></script>
+
+        <!-- Latest jQuery JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <!-- Minified knockout JS -->
+        <script src="scripts/min/knockout3.4.2.min.js"></script>
+
+        <!-- Google Maps constructor script creating a new map with coordinates and zoom -->
+        <script src="scripts/app.js"></script>
+
+    </div><!-- /.container -->
+    </body>
+</html>
