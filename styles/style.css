@@ -26,6 +26,18 @@ label {
     height: 100%;
 }
 
+.phone-button {
+    color: #F2F3F4;
+    background-color: #1A5276;
+    font-family: Verdana;
+    font-size: 0.7em;
+    margin-top: 5px;
+    box-shadow: none;
+    border-radius: 7px;
+    border: 1px solid grey;
+    width: 90%;
+}
+
 .place-info {
     font-size: 0.7em;
     font-weight: none;
