@@ -352,6 +352,9 @@ function bounce() {
     this.marker.setAnimation(google.maps.Animation.BOUNCE);
 }
 
+// Functions for the foursquare api
+"https://api.foursquare.com/v2/venues/search?v=20161016&ll=53.3442561%2C%20-6.2570881&query=herbstreet&intent=checkin&client_id=OWVYGY2P0FTE0WUBZRHTKSBY4AY2IGWV1KCXHYKZT4WRJIWW&client_secret=MV2RQT4Z1JCNNZ41PNTJBBVIOSKXZ2S4XPUXEEXASG4LEXGX"
+
 
 
 var viewModel = function(){
@@ -363,9 +366,9 @@ var viewModel = function(){
         var filter = self.filter()
         var query = self.filter().toLowerCase();
 
-        if (!query || (query == "")) {
+        if (!query) {
             return;
-        } else if (query === "") {
+        } else if (query == "") {
             return;
         } else {
             return ko.utils.arrayFilter(data(), function(place) {
