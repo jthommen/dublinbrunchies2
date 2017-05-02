@@ -367,13 +367,16 @@ var viewModel = function(){
         var query = self.filter().toLowerCase();
 
         if (!query) {
-            return;
-        } else if (query == "") {
-            return;
+            data().forEach(function(place) {
+                place.shown(true);
+                // console.log(place.marker);
+                // place.marker.setVisible(true);
+                return;
+            });
         } else {
-            return ko.utils.arrayFilter(data(), function(place) {
+            return data().forEach(function(place) {
                 if(place.name.toLowerCase().indexOf(query) >= 0) {
-                    place.shown(true)
+                    place.shown(true);
                     place.marker.setVisible(true);
                     return;
                 } else {
