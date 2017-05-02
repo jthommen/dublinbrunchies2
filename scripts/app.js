@@ -369,20 +369,18 @@ var viewModel = function(){
         if (!query) {
             data().forEach(function(place) {
                 place.shown(true);
-                // console.log(place.marker);
-                // place.marker.setVisible(true);
-                return;
+                if(place.marker){
+                    place.marker.setVisible(true);
+                }
             });
         } else {
-            return data().forEach(function(place) {
+            data().forEach(function(place) {
                 if(place.name.toLowerCase().indexOf(query) >= 0) {
                     place.shown(true);
                     place.marker.setVisible(true);
-                    return;
                 } else {
                     place.shown(false);
                     place.marker.setVisible(false);
-                    return;
                 }
             })
         }
