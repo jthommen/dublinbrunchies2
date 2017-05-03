@@ -401,9 +401,7 @@ var viewModel = function(){
 
     // Clear foursquare phone message
     self.clearPhoneMsg = function(){
-        console.log(this.phoneMsg());
         this.phoneMsg("");
-        console.log(this.phoneMsg());
     }
 
     // Filter function to filter on text input

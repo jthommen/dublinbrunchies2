@@ -66,13 +66,19 @@ label {
     margin: 0 auto;
 }
 
+@media screen (max-width: 500px) {
+    #nav {
+        min-width: 150px;
+    }
+}
+
 #nav {
     z-index: 100;
     position: absolute;
+    top: 0;
+    width: 20%;
     background-color: #1A5276;
     color: #F2F3F4;
-    min-width: 150px;
-    width: 20%;
     padding: 15px;
 }
 
