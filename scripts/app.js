@@ -1,3 +1,6 @@
+// Dublin brunchies code
+
+// Initializing global variables
 var map,places,geocoder,service, marker;
 var markers = [];
 var currentMarker = null;
@@ -266,6 +269,7 @@ function app() {
     placeMarkers(data());
 }
 
+// Places marker data on map
 function placeMarkers(data) {
     var placeInfoWindow = new google.maps.InfoWindow();
     for (var i=0; i < data.length; i++){
@@ -285,6 +289,7 @@ function placeMarkers(data) {
     }
 }
 
+// Populates infowindows
 function populateInfoWindow(marker, infowindow) {
 
     infowindow.setContent(getPlaceDetails(marker, infowindow));
@@ -296,6 +301,7 @@ function populateInfoWindow(marker, infowindow) {
     infowindow.open(map, marker);
 }
 
+// Gets places details and populates content of infowindows
 function getPlaceDetails(marker, infowindow) {
     service = new google.maps.places.PlacesService(map);
     service.getDetails({
@@ -306,7 +312,7 @@ function getPlaceDetails(marker, infowindow) {
             // Set marker property on the infowindow to prevent duplicates
             infowindow.marker = marker;
             var innerHTML = '<div>';
-              innerHTML += '<strong>' + place.name + '</strong>';
+              innerHTML += '<strong>' + marker.title + '</strong>';
 
             if (place.opening_hours) {
               innerHTML += '<br><br><strong>Hours:</strong><br>' +
@@ -353,7 +359,32 @@ function bounce() {
 }
 
 // Functions for the foursquare api
-"https://api.foursquare.com/v2/venues/search?v=20161016&ll=53.3442561%2C%20-6.2570881&query=herbstreet&intent=checkin&client_id=OWVYGY2P0FTE0WUBZRHTKSBY4AY2IGWV1KCXHYKZT4WRJIWW&client_secret=MV2RQT4Z1JCNNZ41PNTJBBVIOSKXZ2S4XPUXEEXASG4LEXGX"
+function fsPhoneNumber(){
+    var self = this;
+    var VERSION = "20161016";
+    var CLIENT_SECRET = "MV2RQT4Z1JCNNZ41PNTJBBVIOSKXZ2S4XPUXEEXASG4LEXGX";
+    var CLIENT_ID = "OWVYGY2P0FTE0WUBZRHTKSBY4AY2IGWV1KCXHYKZT4WRJIWW";
+    var LL = "53.3402743%2C%20-6.265504899999996";
+    var query = this.name.toLowerCase().replace(" ","");
+    var fsURL = "https://api.foursquare.com/v2/venues/search?v="+VERSION+"&ll="+LL+"&query="+query+"&client_id="+CLIENT_ID+"&client_secret="+CLIENT_SECRET;
+
+    $.getJSON(fsURL).done(function(data) {
+        var places = data.response.venues[0];
+        if(!places.contact.formattedPhone) {
+            console.log("No phone number on foursquare available!");
+        } else {
+            if(self.international_phone_number === places.contact.formattedPhone) {
+                console.log("Phone numbers match!");
+            } else {
+                console.log("Phone numbers don't match, try both!");
+                console.log(self.international_phone_number);
+                console.log(places.contact.formattedPhone);
+            }
+        }
+    }).fail(function(){
+        alert("The foursquare API returned an error. Please try again later.");
+    });
+}
 
 
 
