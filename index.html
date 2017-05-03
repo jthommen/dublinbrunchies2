@@ -23,7 +23,7 @@
                 </ul>
                 <div class="phone-check" data-bind="visible: shown">
                     <button class="phone-button" data-bind="click: fsPhoneNumber">Check Number on Foursquare</button>
-                    <div class="phone-message" data-bind="html: phoneMsg"></div>
+                    <div class="phone-message" data-bind="html: phoneMsg, click: $parent.clearPhoneMsg"></div>
                 </div>
             </div>
         </div>

@@ -71,9 +71,8 @@ label {
     position: absolute;
     background-color: #1A5276;
     color: #F2F3F4;
-    width: 20%;
     min-width: 150px;
-    height: 100%;
+    width: 20%;
     padding: 15px;
 }
 

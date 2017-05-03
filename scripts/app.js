@@ -399,6 +399,13 @@ function fsPhoneNumber(){
 var viewModel = function(){
     var self = this;
 
+    // Clear foursquare phone message
+    self.clearPhoneMsg = function(){
+        console.log(this.phoneMsg());
+        this.phoneMsg("");
+        console.log(this.phoneMsg());
+    }
+
     // Filter function to filter on text input
     self.filter = ko.observable("");
 
@@ -425,10 +432,6 @@ var viewModel = function(){
             })
         }
     });
-
-    function displayPhoneMessage() {
-        console.log("text");
-    }
 };
 
 ko.applyBindings(new viewModel());
