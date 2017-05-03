@@ -16,7 +16,8 @@ var data = ko.observableArray([
         lng: -6.237654799999973,
         rating: 4.3,
         website: "http://www.herbstreet.ie/",
-        shown: ko.observable(true)
+        shown: ko.observable(true),
+        phoneMsg: ko.observable()
     },
     {
         name: "Eathos ",
@@ -27,7 +28,8 @@ var data = ko.observableArray([
         lng: -6.24485709999999,
         rating: 4.4,
         website: "http://www.eathosdublin.com/",
-        shown: ko.observable(true)
+        shown: ko.observable(true),
+        phoneMsg: ko.observable()
     },
     {
         name: "Farmer Browns Bath Avenue",
@@ -38,7 +40,8 @@ var data = ko.observableArray([
         lng: -6.231884000000036,
         rating: 4.3,
         website: "http://farmerbrowns.ie/",
-        shown: ko.observable(true)
+        shown: ko.observable(true),
+        phoneMsg: ko.observable()
     },
     {
         name: "Odessa ",
@@ -49,7 +52,8 @@ var data = ko.observableArray([
         lng: -6.263827900000024,
         rating: 4.1,
         website: "http://odessa.ie/",
-        shown: ko.observable(true)
+        shown: ko.observable(true),
+        phoneMsg: ko.observable()
     },
     {
         name: "Bow Lane",
@@ -60,7 +64,8 @@ var data = ko.observableArray([
         lng: -6.265504899999996,
         rating: 4.2,
         website: "http://www.bowlane.ie/",
-        shown: ko.observable(true)
+        shown: ko.observable(true),
+        phoneMsg: ko.observable()
     }
 ]);
 
@@ -360,6 +365,8 @@ function bounce() {
 
 // Functions for the foursquare api
 function fsPhoneNumber(){
+
+    // Specify foursquare url components
     var self = this;
     var VERSION = "20161016";
     var CLIENT_SECRET = "MV2RQT4Z1JCNNZ41PNTJBBVIOSKXZ2S4XPUXEEXASG4LEXGX";
@@ -368,29 +375,31 @@ function fsPhoneNumber(){
     var query = this.name.toLowerCase().replace(" ","");
     var fsURL = "https://api.foursquare.com/v2/venues/search?v="+VERSION+"&ll="+LL+"&query="+query+"&client_id="+CLIENT_ID+"&client_secret="+CLIENT_SECRET;
 
+    // Request JSON from foursquare api, process response
     $.getJSON(fsURL).done(function(data) {
         var places = data.response.venues[0];
         if(!places.contact.formattedPhone) {
-            console.log("No phone number on foursquare available!");
+            self.phoneMsg("No phone number on foursquare available!");
         } else {
             if(self.international_phone_number === places.contact.formattedPhone) {
-                console.log("Phone numbers match!");
+                self.phoneMsg("Phone numbers match!");
             } else {
-                console.log("Phone numbers don't match, try both!");
-                console.log(self.international_phone_number);
-                console.log(places.contact.formattedPhone);
+                self.phoneMsg("Phone numbers don't match, try both!</br>"+
+                self.international_phone_number+"</br>"+
+                places.contact.formattedPhone);
             }
         }
     }).fail(function(){
-        alert("The foursquare API returned an error. Please try again later.");
+        self.phoneMsg("The foursquare API returned an error. Please try again later.");
     });
 }
 
 
-
+// Viewmodel for the Dublin Brunchies app
 var viewModel = function(){
     var self = this;
 
+    // Filter function to filter on text input
     self.filter = ko.observable("");
 
     self.placeFilter = ko.computed(function() {
@@ -416,6 +425,10 @@ var viewModel = function(){
             })
         }
     });
+
+    function displayPhoneMessage() {
+        console.log("text");
+    }
 };
 
 ko.applyBindings(new viewModel());

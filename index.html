@@ -21,11 +21,13 @@
                     <li class="place-info" data-bind="text: formatted_address"></li>
                     <li class="place-info" data-bind="text: international_phone_number"></li>
                 </ul>
-                <button class="phone-button" data-bind="click: fsPhoneNumber">Check Number on Foursquare</button>
+                <div class="phone-check" data-bind="visible: shown">
+                    <button class="phone-button" data-bind="click: fsPhoneNumber">Check Number on Foursquare</button>
+                    <div class="phone-message" data-bind="html: phoneMsg"></div>
+                </div>
             </div>
         </div>
         <div data-bind="value: map" id="map"></div>
-
 
 
         <!-- JS Google Maps API Call with `initMap` callback -->
