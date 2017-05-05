@@ -369,8 +369,8 @@ function changeColor(marker) {
     this.marker.setAnimation(google.maps.Animation.BOUNCE);
 }
 
-// Functions for the foursquare api
-function fsPhoneNumber(){
+// // Foursquare helper function
+function callFourSquare(){
 
     // Specify foursquare url components
     var self = this;
@@ -379,11 +379,30 @@ function fsPhoneNumber(){
     var CLIENT_ID = "OWVYGY2P0FTE0WUBZRHTKSBY4AY2IGWV1KCXHYKZT4WRJIWW";
     var LL = "53.3402743%2C%20-6.265504899999996";
     var query = this.name.toLowerCase().replace(" ","");
+    console.log(query);
     var fsURL = "https://api.foursquare.com/v2/venues/search?v="+VERSION+"&ll="+LL+"&query="+query+"&client_id="+CLIENT_ID+"&client_secret="+CLIENT_SECRET;
 
     // Request JSON from foursquare api, process response
     $.getJSON(fsURL).done(function(data) {
         var places = data.response.venues[0];
+        // I don't know how to return the places value to the callFourSquare function
+        // return places
+        }
+    }).fail(function(){
+        var error = ("The foursquare API returned an error. Please try again later.");
+        // I don't know how to return the error value to the callFourSquare function
+        // return error
+    });
+
+    // I don't know how to return the value from the $.getJSON() to the function that called callFourSquare
+
+}
+
+// Functions for the foursquare api
+function fsPhoneNumber(){
+
+    // This should call the helper function and then use the returned value to do some testing here
+    callFourSquare(this, function(places){
         if(!places.contact.formattedPhone) {
             self.phoneMsg("No phone number on foursquare available!");
         } else {
@@ -395,8 +414,16 @@ function fsPhoneNumber(){
                 places.contact.formattedPhone);
             }
         }
-    }).fail(function(){
-        self.phoneMsg("The foursquare API returned an error. Please try again later.");
+    });
+}
+
+function fsRating(){
+    var self = this;
+
+    // This should call the helper function and then use the returned value to do some testing here
+    callFourSquare(this, function(places){
+
+    // do stuff and then return value to another function to populate infowindow
     });
 }
 
