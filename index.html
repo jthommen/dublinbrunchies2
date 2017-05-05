@@ -16,7 +16,7 @@
             <input id="search-box-text" type="text" placeholder="e.g. Herbstreet" data-bind="textInput: filter, valueUpdate: 'keydown'" />
             <hr>
             <div id="place-list" data-bind="foreach: data">
-                <ul class="place-element" data-bind="click: showMarker, event: {mouseover: bounce}, visible: shown">
+                <ul class="place-element" data-bind="click: showMarker, visible: shown">
                     <li class="place-name" data-bind="text: name"></li>
                     <li class="place-info">Google rating:  <span data-bind="text: rating"></span></li>
                     <li class="place-info" data-bind="text: formatted_address"></li>

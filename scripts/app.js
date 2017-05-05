@@ -281,7 +281,7 @@ function placeMarkers(data) {
         marker = new google.maps.Marker({
             position: {lat: data[i].lat, lng: data[i].lng},
             map: map,
-            icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+            icon: 'assets/pointer-blue.png',
             title: data[i].name
         });
         marker.id = data[i].placeid;
@@ -351,15 +351,21 @@ function getPlaceDetails(marker, infowindow) {
 
 // Shows InfoWindow
 function showMarker() {
+    changeColor(this.marker);
     populateInfoWindow(this.marker, this.infowindow);
 }
 
-// Makes pin bounce on hover of list item
-function bounce() {
+// Changes marker color on Click
+function changeColor(marker) {
+    this.marker = marker;
+    console.log(currentMarker);
     if(currentMarker && currentMarker != this.marker){
-       currentMarker.setAnimation(null);
-   }
+        console.log(currentMarker);
+        currentMarker.setIcon('assets/pointer-blue.png');
+        currentMarker.setAnimation(null);
+    }
     currentMarker = this.marker;
+    this.marker.setIcon('assets/pointer-grey.png');
     this.marker.setAnimation(google.maps.Animation.BOUNCE);
 }
 
