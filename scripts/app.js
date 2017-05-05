@@ -317,33 +317,41 @@ function getPlaceDetails(marker, infowindow) {
             // Set marker property on the infowindow to prevent duplicates
             infowindow.marker = marker;
             var innerHTML = '<div>';
-              innerHTML += '<strong>' + marker.title + '</strong>';
+              innerHTML += '<h3>' + marker.title + '</h3>';
 
-            if (place.opening_hours) {
-              innerHTML += '<br><br><strong>Hours:</strong><br>' +
-                  place.opening_hours.weekday_text[0] + '<br>' +
-                  place.opening_hours.weekday_text[1] + '<br>' +
-                  place.opening_hours.weekday_text[2] + '<br>' +
-                  place.opening_hours.weekday_text[3] + '<br>' +
-                  place.opening_hours.weekday_text[4] + '<br>' +
-                  place.opening_hours.weekday_text[5] + '<br>' +
-                  place.opening_hours.weekday_text[6];
-            }
+            fsRating(marker.title, function(data) {
+            	innerHTML +='<br><br>'+
+            		'<strong> '+ data.usersCount+'</strong> '+
+            		'Foursquare user checked into '+ marker.title +
+            		'<strong> ' + data.checkinsCount + ' </strong> times.';
 
-            if (place.photos) {
-              innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
-                  {maxHeight: 100, maxWidth: 200}) + '">';
-              innerHTML += '<img src="' + place.photos[1].getUrl(
-                  {maxHeight: 100, maxWidth: 200}) + '">';
-            }
-            innerHTML += '</div>';
-            infowindow.setContent(innerHTML);
-            infowindow.open(map, marker);
+            	if (place.opening_hours) {
+              	innerHTML += '<br><br><strong>Hours:</strong><br>' +
+                  	place.opening_hours.weekday_text[0] + '<br>' +
+                  	place.opening_hours.weekday_text[1] + '<br>' +
+                  	place.opening_hours.weekday_text[2] + '<br>' +
+                  	place.opening_hours.weekday_text[3] + '<br>' +
+                  	place.opening_hours.weekday_text[4] + '<br>' +
+                  	place.opening_hours.weekday_text[5] + '<br>' +
+                  	place.opening_hours.weekday_text[6];
+            	}
 
-            // Make sure the marker is cleared if infowindow is closed
-            infowindow.addListener('closeclick', function() {
-                infowindow.marker = null;
-            });
+            	if (place.photos) {
+            	  innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
+            	      {maxHeight: 100, maxWidth: 200}) + '">';
+            	  innerHTML += '<img src="' + place.photos[1].getUrl(
+            	      {maxHeight: 100, maxWidth: 200}) + '">';
+            	}
+
+            	innerHTML += '</div>';
+            	infowindow.setContent(innerHTML);
+            	infowindow.open(map, marker);
+
+            	// Make sure the marker is cleared if infowindow is closed
+            	infowindow.addListener('closeclick', function() {
+                	infowindow.marker = null;
+            	});
+            });      
         }
     });
 }
@@ -358,9 +366,7 @@ function showMarker() {
 // Changes marker color on Click
 function changeColor(marker) {
     this.marker = marker;
-    console.log(currentMarker);
     if(currentMarker && currentMarker != this.marker){
-        console.log(currentMarker);
         currentMarker.setIcon('assets/pointer-blue.png');
         currentMarker.setAnimation(null);
     }
@@ -370,40 +376,33 @@ function changeColor(marker) {
 }
 
 // // Foursquare helper function
-function callFourSquare(){
-
+function callFoursquare(name, callback){
+    
     // Specify foursquare url components
-    var self = this;
     var VERSION = "20161016";
     var CLIENT_SECRET = "MV2RQT4Z1JCNNZ41PNTJBBVIOSKXZ2S4XPUXEEXASG4LEXGX";
     var CLIENT_ID = "OWVYGY2P0FTE0WUBZRHTKSBY4AY2IGWV1KCXHYKZT4WRJIWW";
     var LL = "53.3402743%2C%20-6.265504899999996";
-    var query = this.name.toLowerCase().replace(" ","");
-    console.log(query);
+    var query = name.toLowerCase().replace(" ","");
     var fsURL = "https://api.foursquare.com/v2/venues/search?v="+VERSION+"&ll="+LL+"&query="+query+"&client_id="+CLIENT_ID+"&client_secret="+CLIENT_SECRET;
 
     // Request JSON from foursquare api, process response
     $.getJSON(fsURL).done(function(data) {
         var places = data.response.venues[0];
-        // I don't know how to return the places value to the callFourSquare function
-        // return places
-        }
+        callback(places);
     }).fail(function(){
-        var error = ("The foursquare API returned an error. Please try again later.");
-        // I don't know how to return the error value to the callFourSquare function
-        // return error
+        var error = "The foursquare API returned an error. Please try again later.";
+        callback(error);
     });
-
-    // I don't know how to return the value from the $.getJSON() to the function that called callFourSquare
 
 }
 
-// Functions for the foursquare api
-function fsPhoneNumber(){
 
-    // This should call the helper function and then use the returned value to do some testing here
-    callFourSquare(this, function(places){
-        if(!places.contact.formattedPhone) {
+function fsPhoneNumber() {
+	var self = this;
+
+	callFoursquare(this.name, function(places) {
+		if(!places.contact.formattedPhone) {
             self.phoneMsg("No phone number on foursquare available!");
         } else {
             if(self.international_phone_number === places.contact.formattedPhone) {
@@ -414,16 +413,17 @@ function fsPhoneNumber(){
                 places.contact.formattedPhone);
             }
         }
-    });
+	});
 }
 
-function fsRating(){
-    var self = this;
 
-    // This should call the helper function and then use the returned value to do some testing here
-    callFourSquare(this, function(places){
-
-    // do stuff and then return value to another function to populate infowindow
+function fsRating(place, callback){
+	console.log(place);
+    callFoursquare(place, function(place) {
+    	var foursquare = {};
+    	foursquare.checkinsCount = place.stats.checkinsCount;
+    	foursquare.usersCount = place.stats.usersCount;
+    	callback(foursquare);
     });
 }
 
