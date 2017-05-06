@@ -30,10 +30,6 @@
         </div>
         <div data-bind="value: map" id="map"></div>
 
-
-        <!-- JS Google Maps API Call with `initMap` callback -->
-        <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry&key=AIzaSyDy1ZqFDvp7ztz-VL21dy_ALBG4JKl7Wg8&v=3&callback=app"></script>
-
         <!-- Latest jQuery JS -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -42,6 +38,9 @@
 
         <!-- Google Maps constructor script creating a new map with coordinates and zoom -->
         <script src="scripts/app.js"></script>
+
+        <!-- JS Google Maps API Call with `initMap` callback -->
+        <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry&key=AIzaSyDy1ZqFDvp7ztz-VL21dy_ALBG4JKl7Wg8&v=3&callback=app" async defer onerror="appError()"></script>
 
     </div><!-- /.container -->
     </body>

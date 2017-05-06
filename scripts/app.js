@@ -5,6 +5,7 @@ var map,places,geocoder,service, marker;
 var markers = [];
 var currentMarker = null;
 
+
 // Initial places Info
 var data = ko.observableArray([
     {
@@ -68,6 +69,7 @@ var data = ko.observableArray([
         phoneMsg: ko.observable()
     }
 ]);
+
 
 // Google maps styles
 var mapStyles = [
@@ -262,6 +264,7 @@ var mapStyles = [
     }
 ];
 
+
 // Initializes map
 function app() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -273,6 +276,13 @@ function app() {
 
     placeMarkers(data());
 }
+
+
+// Handles error if map doesn't load
+function appError(){
+    alert("The Google Maps API didn't load, please try again later.");
+}
+
 
 // Places marker data on map
 function placeMarkers(data) {
@@ -295,6 +305,7 @@ function placeMarkers(data) {
     }
 }
 
+
 // Populates infowindows
 function populateInfoWindow(marker, infowindow) {
 
@@ -308,6 +319,7 @@ function populateInfoWindow(marker, infowindow) {
 
     infowindow.open(map, marker);
 }
+
 
 // Gets places details and populates content of infowindows
 function getPlaceDetails(marker, infowindow) {
@@ -325,7 +337,7 @@ function getPlaceDetails(marker, infowindow) {
             fsRating(marker.title, function(data) {
             	innerHTML +='<br><br>'+
             		'<strong> '+ data.usersCount+'</strong> '+
-            		'Foursquare user checked into '+ marker.title +
+            		'foursquare user checked into '+ marker.title +
             		'<strong> ' + data.checkinsCount + ' </strong> times.';
 
             	if (place.opening_hours) {
@@ -356,7 +368,7 @@ function getPlaceDetails(marker, infowindow) {
                 	marker.setIcon('assets/pointer-blue.png');
                 	marker.setAnimation(null);
             	});
-            });      
+            });
         }
     });
 }
@@ -367,6 +379,7 @@ function showMarker() {
     changeColor(this.marker);
     populateInfoWindow(this.marker, this.infowindow);
 }
+
 
 // Changes marker color on Click
 function changeColor(marker) {
@@ -380,9 +393,10 @@ function changeColor(marker) {
     this.marker.setAnimation(google.maps.Animation.BOUNCE);
 }
 
+
 // // Foursquare helper function
 function callFoursquare(name, callback){
-    
+
     // Specify foursquare url components
     var VERSION = "20161016";
     var CLIENT_SECRET = "MV2RQT4Z1JCNNZ41PNTJBBVIOSKXZ2S4XPUXEEXASG4LEXGX";
@@ -396,11 +410,11 @@ function callFoursquare(name, callback){
         var places = data.response.venues[0];
         callback(places);
     }).fail(function(){
-        var error = "The foursquare API returned an error. Please try again later.";
-        callback(error);
+        alert("The foursquare API returned an error. Please try again later.");
     });
 
 }
+
 
 // Function for phone number testing with foursquare
 function fsPhoneNumber() {
@@ -420,6 +434,7 @@ function fsPhoneNumber() {
         }
 	});
 }
+
 
 // Function for returning the check-ins of a place on foursquare
 function fsRating(place, callback){
