@@ -9,7 +9,7 @@ body {
 }
 
 h1 {
-    font-size: 1.4em;
+    font-size: 1.3em;
 }
 
 h3 {
@@ -71,10 +71,6 @@ label {
 }
 
 @media screen and (max-width: 400px) {
-    #nav {
-        width: 10%;
-    }
-
     h1 {
         font-size: 1em;
     }
@@ -88,16 +84,15 @@ label {
     .place-name {
         font-size: 0.7em;
     }
-
-
-
 }
+
 
 #nav {
     z-index: 100;
     position: absolute;
     top: 0;
     width: 30%;
+    max-width: 200px;
     background-color: #1A5276;
     color: #F2F3F4;
     padding: 15px;

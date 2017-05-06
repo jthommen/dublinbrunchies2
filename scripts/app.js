@@ -288,6 +288,7 @@ function placeMarkers(data) {
         data[i].infowindow = placeInfoWindow;
         marker.addListener('click', function(){
             populateInfoWindow(this, placeInfoWindow);
+            changeColor(this);
         });
 
         data[i].marker = marker;
@@ -301,6 +302,8 @@ function populateInfoWindow(marker, infowindow) {
 
     infowindow.addListener('closeclick', function() {
         infowindow.marker = 0;
+        marker.setIcon('assets/pointer-blue.png');
+        marker.setAnimation(null);
     });
 
     infowindow.open(map, marker);
@@ -350,6 +353,8 @@ function getPlaceDetails(marker, infowindow) {
             	// Make sure the marker is cleared if infowindow is closed
             	infowindow.addListener('closeclick', function() {
                 	infowindow.marker = null;
+                	marker.setIcon('assets/pointer-blue.png');
+                	marker.setAnimation(null);
             	});
             });      
         }
@@ -397,7 +402,7 @@ function callFoursquare(name, callback){
 
 }
 
-
+// Function for phone number testing with foursquare
 function fsPhoneNumber() {
 	var self = this;
 
@@ -416,9 +421,8 @@ function fsPhoneNumber() {
 	});
 }
 
-
+// Function for returning the check-ins of a place on foursquare
 function fsRating(place, callback){
-	console.log(place);
     callFoursquare(place, function(place) {
     	var foursquare = {};
     	foursquare.checkinsCount = place.stats.checkinsCount;
